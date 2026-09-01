@@ -43,11 +43,12 @@ const Navbar = ({ isModalOpen = false }) => {
     <header className={`fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 pt-3 sm:pt-4 pointer-events-none transition-all duration-300 ease-in-out ${
       isModalOpen ? 'opacity-0 -translate-y-14 pointer-events-none' : 'opacity-100 translate-y-0'
     }`}>
-      <div className={`max-w-4xl mx-auto rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 pointer-events-auto flex items-center justify-between ${
+      <div className={`max-w-5xl mx-auto rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 pointer-events-auto flex items-center justify-between relative overflow-hidden ${
         scrolled
           ? 'bg-[#0c1017]/85 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
           : 'bg-[#0c1017]/60 backdrop-blur-md border border-white/5 shadow-lg'
       }`}>
+        <div className="scroll-progress absolute left-0 bottom-0 h-[2px] w-full bg-gradient-to-r from-neon-emerald via-neon-cyan to-amber-400"></div>
         
         {/* Brand Logo with Live Status Dot */}
         <a href="#hero" className="flex items-center gap-2.5 group">
@@ -69,7 +70,7 @@ const Navbar = ({ isModalOpen = false }) => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                className={`magnetic px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
                   isActive
                     ? 'text-neon-emerald bg-neon-emerald/10 font-semibold'
                     : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -97,7 +98,7 @@ const Navbar = ({ isModalOpen = false }) => {
           {/* Contact CTA */}
           <a
             href="#contact"
-            className="text-xs px-3.5 py-1.5 rounded-full bg-neon-emerald text-slate-950 font-bold hover:bg-neon-lime transition-all duration-200 flex items-center gap-1 shadow-sm"
+            className="magnetic text-xs px-3.5 py-1.5 rounded-full bg-neon-emerald text-slate-950 font-bold hover:bg-neon-lime transition-all duration-200 flex items-center gap-1 shadow-sm"
           >
             <span>Let's Talk</span>
             <ArrowRight className="w-3 h-3" />

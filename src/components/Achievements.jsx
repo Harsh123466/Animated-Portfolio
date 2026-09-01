@@ -10,18 +10,9 @@ const iconMap = {
 
 const Achievements = () => {
   return (
-    <section id="achievements" className="py-28 px-6 md:px-12 border-t border-border-light relative">
-      
-      {/* Background ambient lighting */}
-      <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/5 blur-[140px] rounded-full pointer-events-none -z-10"></div>
-
+    <section id="achievements" className="section-shell py-28 px-6 md:px-12 border-t border-border-light relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        
-        {/* Section Label */}
-        <div className="flex items-center gap-3 mb-6 text-slate-400 text-xs font-mono tracking-[0.15em] uppercase">
-          <span className="w-6 h-[1px] bg-amber-400"></span>
-          <span>Honors & Competitive Milestones</span>
-        </div>
+        <div className="section-kicker mb-6">Honors & Competitive Milestones</div>
 
         {/* Section Header */}
         <div className="mb-14">
@@ -34,23 +25,22 @@ const Achievements = () => {
         </div>
 
         {/* Achievement Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7">
           {achievements.map((item, index) => {
             const Icon = iconMap[item.icon] || Trophy;
             return (
               <div
                 key={item.id}
-                className="glass-panel p-7 sm:p-8 rounded-2xl border border-border-light hover:border-amber-400/50 transition-all duration-300 shadow-xl flex flex-col justify-between group relative overflow-hidden"
+                className="achievement-card spotlight-card tilt-card glass-panel p-7 sm:p-8 rounded-3xl border border-border-light hover:border-amber-400/50 transition-all duration-300 shadow-xl flex flex-col justify-between group relative overflow-hidden"
               >
-                {/* Subtle corner badge */}
-                <div className="absolute top-0 right-0 p-4">
-                  <span className="text-[10px] font-mono px-2.5 py-1 rounded bg-amber-400/10 text-amber-400 border border-amber-400/20 font-bold uppercase">
+                <div className="absolute inset-0 blueprint-grid opacity-0 group-hover:opacity-40 transition-opacity pointer-events-none"></div>
+                <div className="absolute top-0 right-0 p-4 z-10">
+                  <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/20 font-bold uppercase">
                     {item.highlight}
                   </span>
                 </div>
 
-                <div>
-                  {/* Icon & Index */}
+                <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 rounded-xl bg-surface-100 border border-border-light flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
                       <Icon className="w-6 h-6" />
@@ -60,7 +50,6 @@ const Achievements = () => {
                     </span>
                   </div>
 
-                  {/* Title & Organization */}
                   <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-100 group-hover:text-amber-400 transition-colors leading-snug">
                     {item.title}
                   </h3>
@@ -68,14 +57,12 @@ const Achievements = () => {
                     {item.organization} • {item.period}
                   </p>
 
-                  {/* Description */}
                   <p className="text-slate-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
                     {item.description}
                   </p>
                 </div>
 
-                {/* Tag Pill & Footer Link */}
-                <div className="pt-4 border-t border-border-light flex items-center justify-between">
+                <div className="relative z-10 pt-4 border-t border-border-light flex items-center justify-between gap-4">
                   <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-neon-emerald" />
                     <span>{item.tag}</span>

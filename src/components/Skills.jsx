@@ -1,154 +1,128 @@
 import React, { useState } from 'react';
 import { skillCategories } from '../data/portfolioData';
-import { 
-  Bot, Boxes, GitFork, DatabaseZap, Sparkles, Cpu, 
-  Flame, Brain, Activity, Binary, Table, Sigma, 
-  Terminal, Code, Database, Zap, Atom, Layout, GitBranch 
+import {
+  Activity, Atom, Binary, Bot, Boxes, Brain, Code, Cpu, Database,
+  DatabaseZap, Flame, GitBranch, GitFork, Layout, Sigma, Sparkles,
+  Table, Terminal, Zap
 } from 'lucide-react';
 
 const iconMap = {
+  Activity,
+  Atom,
+  Binary,
   Bot,
   Boxes,
-  GitFork,
-  DatabaseZap,
-  Sparkles,
-  Cpu,
-  Flame,
   Brain,
-  Activity,
-  Binary,
-  Table,
-  Sigma,
-  Terminal,
   Code,
+  Cpu,
   Database,
-  Zap,
-  Atom,
-  Layout,
+  DatabaseZap,
+  Flame,
   GitBranch,
+  GitFork,
+  Layout,
+  Sigma,
+  Sparkles,
+  Table,
+  Terminal,
+  Zap,
 };
 
 const Skills = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  const filteredCategories = activeCategory === 'all' 
-    ? skillCategories 
-    : skillCategories.filter(cat => cat.id === activeCategory);
+  const [activeCategory, setActiveCategory] = useState(skillCategories[0].id);
+  const active = skillCategories.find((category) => category.id === activeCategory) || skillCategories[0];
 
   return (
-    <section id="skills" className="py-28 px-6 md:px-12 border-t border-border-light relative">
-      
-      {/* Background glow */}
-      <div className="absolute left-1/3 bottom-10 w-[500px] h-[500px] bg-neon-cyan/5 blur-[160px] rounded-full pointer-events-none -z-10"></div>
-
+    <section id="skills" className="section-shell py-28 px-6 md:px-12 border-t border-border-light relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        
-        {/* Section Label */}
-        <div className="flex items-center gap-3 mb-6 text-slate-400 text-xs font-mono tracking-[0.15em] uppercase">
-          <span className="w-6 h-[1px] bg-neon-cyan"></span>
-          <span>Technical Matrix & Capabilities</span>
-        </div>
+        <div className="section-kicker mb-6">Technical Matrix & Capabilities</div>
 
-        {/* Header & Filter */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
-          <div>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-slate-100 leading-[1.08]">
-              Skills & <span className="text-neon-cyan italic font-serif">specializations.</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <div className="lg:col-span-4 lg:sticky lg:top-28">
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tighter text-slate-100 leading-[1.06]">
+              Skills as an <span className="text-neon-cyan italic font-serif">engineering ecosystem.</span>
             </h2>
-            <p className="text-slate-400 mt-3 text-base max-w-xl font-light">
+            <p className="text-slate-400 mt-4 text-base font-light leading-relaxed">
               From multi-agent orchestration to deep learning training loops and competitive algorithm design.
             </p>
-          </div>
 
-          {/* Quick Filter */}
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setActiveCategory('all')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
-                activeCategory === 'all'
-                  ? 'bg-neon-cyan text-slate-950 font-bold shadow-neon-cyan'
-                  : 'bg-surface-100 border border-border-light text-slate-300 hover:border-slate-400 hover:text-white'
-              }`}
-            >
-              All Domains
-            </button>
-            {skillCategories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
-                  activeCategory === cat.id
-                    ? 'bg-neon-cyan text-slate-950 font-bold shadow-neon-cyan'
-                    : 'bg-surface-100 border border-border-light text-slate-300 hover:border-slate-400 hover:text-white'
-                }`}
-              >
-                {cat.title.split('&')[0]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Skill Matrix Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredCategories.map((category) => (
-            <div
-              key={category.id}
-              className="glass-panel p-7 sm:p-8 rounded-2xl border border-border-light hover:border-neon-cyan/40 transition-all duration-300 shadow-xl group"
-            >
-              {/* Category Header */}
-              <div className="border-b border-border-light pb-5 mb-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-100 group-hover:text-neon-cyan transition-colors">
-                    {category.title}
-                  </h3>
-                  <span className="text-xs font-mono text-neon-emerald bg-neon-emerald/10 px-2 py-0.5 rounded border border-neon-emerald/20">
-                    {category.skills.length} Technologies
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-400 mt-2 font-light">
-                  {category.description}
-                </p>
-              </div>
-
-              {/* Skills Badge Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {category.skills.map((skill) => {
-                  const Icon = iconMap[skill.icon] || Cpu;
-                  return (
-                    <div
-                      key={skill.name}
-                      className={`p-3 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
-                        skill.highlight
-                          ? 'bg-surface-100/90 border-border-light hover:border-neon-emerald/50 hover:bg-neon-emerald/5'
-                          : 'bg-surface-200/50 border-border-light/60 hover:border-slate-400'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="p-1.5 rounded-md bg-surface-300 border border-border-light text-neon-emerald">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        {skill.highlight && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-neon-emerald animate-pulse"></span>
-                        )}
-                      </div>
-
+            <div className="mt-8 space-y-3">
+              {skillCategories.map((category) => {
+                const activeState = activeCategory === category.id;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => setActiveCategory(category.id)}
+                    className={`spotlight-card w-full rounded-2xl border p-4 text-left transition-all ${
+                      activeState
+                        ? 'glass-panel border-neon-cyan/45 shadow-neon-cyan'
+                        : 'bg-surface-200/35 border-border-light hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-4">
                       <div>
-                        <div className="text-xs font-bold text-slate-200 leading-tight">
-                          {skill.name}
+                        <div className="text-sm font-bold text-slate-100">{category.title}</div>
+                        <div className="mt-1 text-xs text-slate-500">{category.skills.length} technologies</div>
+                      </div>
+                      <span className={`h-2 w-2 rounded-full ${activeState ? 'bg-neon-cyan' : 'bg-slate-600'}`}></span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="lg:col-span-8 lg:pt-12">
+            <div className="glass-panel gradient-border-emerald rounded-3xl p-6 sm:p-8 overflow-hidden relative">
+              <div className="absolute inset-0 blueprint-grid opacity-55 pointer-events-none"></div>
+              <div className="relative z-10">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pb-6 border-b border-border-light">
+                  <div>
+                    <span className="text-xs font-mono uppercase tracking-widest text-neon-cyan">Active Capability Cluster</span>
+                    <h3 className="mt-2 text-2xl sm:text-4xl font-bold text-slate-100">{active.title}</h3>
+                    <p className="mt-2 text-sm text-slate-400 max-w-2xl">{active.description}</p>
+                  </div>
+                  <div className="rounded-2xl border border-neon-emerald/25 bg-neon-emerald/10 px-4 py-3 text-center">
+                    <div className="text-3xl font-bold text-neon-emerald">{active.skills.filter((skill) => skill.highlight).length}</div>
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Core strengths</div>
+                  </div>
+                </div>
+
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {active.skills.map((skill, index) => {
+                    const Icon = iconMap[skill.icon] || Cpu;
+                    return (
+                      <div
+                        key={skill.name}
+                        className={`skill-card tilt-card spotlight-card rounded-2xl border p-4 min-h-[150px] flex flex-col justify-between transition-all ${
+                          skill.highlight
+                            ? 'bg-surface-100/85 border-neon-emerald/20 hover:border-neon-emerald/50'
+                            : 'bg-surface-200/55 border-border-light hover:border-slate-400/50'
+                        }`}
+                        style={{ '--reveal-delay': `${index * 70}ms` }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="rounded-xl border border-border-light bg-surface-300 p-2.5 text-neon-emerald">
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <span className="text-[10px] font-mono text-slate-500">NODE 0{index + 1}</span>
                         </div>
-                        <div className="text-[10px] font-mono text-slate-400 mt-1">
-                          {skill.level}
+                        <div>
+                          <h4 className="text-base font-bold text-slate-100">{skill.name}</h4>
+                          <div className="mt-2 flex items-center justify-between gap-3">
+                            <span className="text-xs font-mono text-slate-400">{skill.level}</span>
+                            {skill.highlight && <span className="rounded-full bg-neon-emerald/10 px-2 py-0.5 text-[10px] font-mono text-neon-emerald">primary</span>}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-
             </div>
-          ))}
+          </div>
         </div>
-
       </div>
     </section>
   );

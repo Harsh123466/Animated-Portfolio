@@ -10,18 +10,9 @@ const ExperienceEdu = () => {
   };
 
   return (
-    <section id="education" className="py-28 px-6 md:px-12 border-t border-border-light relative">
-      
-      {/* Background glow */}
-      <div className="absolute left-1/4 bottom-1/3 w-96 h-96 bg-neon-emerald/5 blur-[140px] rounded-full pointer-events-none -z-10"></div>
-
+    <section id="education" className="section-shell py-28 px-6 md:px-12 border-t border-border-light relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        
-        {/* Section Label */}
-        <div className="flex items-center gap-3 mb-6 text-slate-400 text-xs font-mono tracking-[0.15em] uppercase">
-          <span className="w-6 h-[1px] bg-neon-emerald"></span>
-          <span>Education & Academic Rigor</span>
-        </div>
+        <div className="section-kicker mb-6">Education & Academic Rigor</div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
@@ -32,10 +23,10 @@ const ExperienceEdu = () => {
               <span className="text-neon-emerald italic font-serif">I.T.S Engineering College.</span>
             </h2>
 
-            <div className="glass-panel p-7 sm:p-9 rounded-2xl border border-border-light hover:border-neon-emerald/40 transition-all duration-300 shadow-2xl relative overflow-hidden">
-              
-              {/* Header */}
-              <div className="flex items-start justify-between gap-4 mb-6">
+            <div className="glass-panel spotlight-card gradient-border-emerald p-7 sm:p-9 rounded-3xl border border-border-light hover:border-neon-emerald/40 transition-all duration-300 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 blueprint-grid opacity-35 pointer-events-none"></div>
+
+              <div className="relative z-10 flex items-start justify-between gap-4 mb-6">
                 <div>
                   <span className="text-xs font-mono text-neon-emerald uppercase tracking-widest block mb-1">
                     UNDERGRADUATE PROGRAM
@@ -54,7 +45,7 @@ const ExperienceEdu = () => {
               </div>
 
               {/* Meta details */}
-              <div className="flex flex-wrap gap-4 text-xs font-mono text-slate-300 pb-6 border-b border-border-light">
+              <div className="relative z-10 flex flex-wrap gap-4 text-xs font-mono text-slate-300 pb-6 border-b border-border-light">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5 text-neon-emerald" />
                   <span>{education.location}</span>
@@ -66,7 +57,7 @@ const ExperienceEdu = () => {
               </div>
 
               {/* CGPA Banner */}
-              <div className="my-6 p-4 rounded-xl bg-surface-200/90 border border-neon-emerald/30 flex items-center justify-between">
+              <div className="relative z-10 my-6 p-4 rounded-xl bg-surface-200/90 border border-neon-emerald/30 flex items-center justify-between">
                 <div>
                   <span className="text-[11px] font-mono text-slate-400 uppercase block">Cumulative Grade Point Average</span>
                   <span className="text-xl font-bold text-slate-100">Academic Standing</span>
@@ -77,7 +68,7 @@ const ExperienceEdu = () => {
               </div>
 
               {/* Coursework */}
-              <div>
+              <div className="relative z-10">
                 <h4 className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-neon-cyan" />
                   <span>Core Computer Science Coursework</span>
@@ -86,7 +77,7 @@ const ExperienceEdu = () => {
                   {education.coursework.map((course) => (
                     <span
                       key={course}
-                      className="px-2.5 py-1 rounded bg-surface-100 border border-border-light text-xs font-mono text-slate-300"
+                    className="px-2.5 py-1 rounded bg-surface-100 border border-border-light text-xs font-mono text-slate-300 hover:border-neon-cyan/40 hover:text-neon-cyan transition-colors"
                     >
                       {course}
                     </span>
@@ -112,10 +103,11 @@ const ExperienceEdu = () => {
               {faqs.map((faq, index) => {
                 const isOpen = openFaq === index;
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={index}
                     onClick={() => toggleFaq(index)}
-                    className="glass-panel rounded-xl border border-border-light hover:border-slate-400/40 transition-all duration-200 overflow-hidden cursor-pointer"
+                    className="spotlight-card w-full text-left glass-panel rounded-2xl border border-border-light hover:border-slate-400/40 transition-all duration-200 overflow-hidden cursor-pointer"
                   >
                     <div className="p-5 flex items-center justify-between gap-4">
                       <span className="text-sm sm:text-base font-semibold text-slate-200">
@@ -131,7 +123,7 @@ const ExperienceEdu = () => {
                         {faq.answer}
                       </div>
                     )}
-                  </div>
+                  </button>
                 );
               })}
             </div>

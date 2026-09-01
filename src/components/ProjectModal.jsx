@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Github, ExternalLink, Cpu, CheckCircle2, Layers, ShieldCheck, Zap } from 'lucide-react';
+import { X, Github, ExternalLink, CheckCircle2, Layers, ShieldCheck } from 'lucide-react';
 
 const ProjectModal = ({ project, onClose }) => {
   useEffect(() => {

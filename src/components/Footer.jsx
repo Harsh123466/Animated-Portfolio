@@ -19,7 +19,7 @@ const Footer = () => {
               <span className="text-neon-emerald">H.</span> Harsh Adhana
             </div>
             <p className="text-slate-400 text-xs font-sans max-w-sm">
-              AI/ML Engineer & Systems Developer. Focused on Agentic AI, RAG Pipelines & Algorithmic Problem Solving.
+              AI/ML Engineer Focused on Agentic AI, RAG Pipelines & Algorithmic Problem Solving.
             </p>
           </div>
 

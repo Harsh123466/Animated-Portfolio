@@ -28,31 +28,33 @@ const Contact = ({ onShowToast }) => {
       return;
     }
 
-    // Construct mailto link with prefilled subject and message body
+    // Build a mailto link with the form contents.
+    // Using window.location.href instead of window.open avoids popup blockers
+    // and allows the user's default mail app to open reliably.
     const subject = encodeURIComponent(`[Portfolio Contact] ${formData.role} - from ${formData.name}`);
     const body = encodeURIComponent(`Hi Harsh,\n\nName: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.role}\n\nMessage:\n${formData.message}\n\nSent from your portfolio website.`);
-    
-    window.open(`mailto:${personalInfo.email}?subject=${subject}&body=${body}`, '_blank');
+    const mailtoLink = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+
+    try {
+      const opened = window.open(mailtoLink, '_self');
+      if (!opened) {
+        window.location.href = mailtoLink;
+      }
+    } catch (error) {
+      window.location.href = mailtoLink;
+    }
 
     setSubmitted(true);
     if (onShowToast) {
-      onShowToast('Opening email client with your message!', 'success');
+      onShowToast('Opening your email app with your message!', 'success');
     }
   };
 
   return (
-    <section id="contact" className="py-28 px-6 md:px-12 border-t border-border-light relative">
-      
-      {/* Ambient background glow */}
-      <div className="absolute right-0 bottom-0 w-[600px] h-[600px] bg-neon-emerald/5 blur-[180px] rounded-full pointer-events-none -z-10"></div>
-
+    <section id="contact" className="section-shell py-28 px-6 md:px-12 border-t border-border-light relative overflow-hidden">
+      <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-neon-emerald/10 to-transparent pointer-events-none -z-10"></div>
       <div className="max-w-7xl mx-auto">
-        
-        {/* Section Label */}
-        <div className="flex items-center gap-3 mb-6 text-slate-400 text-xs font-mono tracking-[0.15em] uppercase">
-          <span className="w-6 h-[1px] bg-neon-emerald"></span>
-          <span>Contact & Opportunities</span>
-        </div>
+        <div className="section-kicker mb-6">Contact & Opportunities</div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
@@ -68,7 +70,7 @@ const Contact = ({ onShowToast }) => {
             </div>
 
             {/* Quick Email Copy Box */}
-            <div className="p-5 rounded-2xl bg-surface-200/90 border border-border-light hover:border-neon-emerald/40 transition-all">
+            <div className="spotlight-card p-5 rounded-2xl bg-surface-200/90 border border-border-light hover:border-neon-emerald/40 transition-all">
               <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block mb-2">
                 Primary Email
               </span>
@@ -82,7 +84,7 @@ const Contact = ({ onShowToast }) => {
 
                 <button
                   onClick={handleCopyEmail}
-                  className="p-2 rounded-lg bg-surface-100 border border-border-light hover:border-neon-emerald text-slate-300 hover:text-neon-emerald transition-all shrink-0 flex items-center gap-1.5 text-xs font-mono"
+                  className="magnetic p-2 rounded-lg bg-surface-100 border border-border-light hover:border-neon-emerald text-slate-300 hover:text-neon-emerald transition-all shrink-0 flex items-center gap-1.5 text-xs font-mono"
                   title="Copy email to clipboard"
                 >
                   {copied ? <Check className="w-4 h-4 text-neon-emerald" /> : <Copy className="w-4 h-4" />}
@@ -102,7 +104,7 @@ const Contact = ({ onShowToast }) => {
                   href={personalInfo.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-neon-emerald flex items-center justify-between group transition-all"
+                  className="magnetic spotlight-card p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-neon-emerald flex items-center justify-between group transition-all"
                 >
                   <div className="flex items-center gap-2.5">
                     <Github className="w-4 h-4 text-slate-300 group-hover:text-neon-emerald transition-colors" />
@@ -118,7 +120,7 @@ const Contact = ({ onShowToast }) => {
                   href={personalInfo.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-neon-cyan flex items-center justify-between group transition-all"
+                  className="magnetic spotlight-card p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-neon-cyan flex items-center justify-between group transition-all"
                 >
                   <div className="flex items-center gap-2.5">
                     <Linkedin className="w-4 h-4 text-slate-300 group-hover:text-neon-cyan transition-colors" />
@@ -134,7 +136,7 @@ const Contact = ({ onShowToast }) => {
                   href={personalInfo.leetcode}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-amber-400 flex items-center justify-between group transition-all"
+                  className="magnetic spotlight-card p-3.5 rounded-xl bg-surface-100/70 border border-border-light hover:border-amber-400 flex items-center justify-between group transition-all"
                 >
                   <div className="flex items-center gap-2.5">
                     <Code2 className="w-4 h-4 text-amber-400 transition-colors" />
@@ -158,9 +160,10 @@ const Contact = ({ onShowToast }) => {
 
           {/* Right Column: Briefing Form */}
           <div className="lg:col-span-7">
-            <div className="glass-panel p-7 sm:p-10 rounded-2xl border border-border-light shadow-2xl relative">
+            <div className="glass-panel gradient-border-emerald spotlight-card p-7 sm:p-10 rounded-3xl border border-border-light shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 blueprint-grid opacity-35 pointer-events-none"></div>
               
-              <div className="flex items-center justify-between pb-6 border-b border-border-light mb-8">
+              <div className="relative z-10 flex items-center justify-between pb-6 border-b border-border-light mb-8">
                 <div>
                   <span className="text-xs font-mono text-neon-emerald uppercase tracking-widest block">
                     PROJECT BRIEFING / INQUIRY
@@ -194,7 +197,7 @@ const Contact = ({ onShowToast }) => {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5 text-sm">
+                <form onSubmit={handleSubmit} className="relative z-10 space-y-5 text-sm">
                   
                   {/* Name & Email Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -208,7 +211,7 @@ const Contact = ({ onShowToast }) => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Alex Mercer"
-                        className="w-full bg-surface-100 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors"
+                        className="w-full bg-surface-100/90 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors"
                       />
                     </div>
 
@@ -222,7 +225,7 @@ const Contact = ({ onShowToast }) => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="alex@company.com"
-                        className="w-full bg-surface-100 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors"
+                        className="w-full bg-surface-100/90 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -235,7 +238,7 @@ const Contact = ({ onShowToast }) => {
                     <select
                       value={formData.role}
                       onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      className="w-full bg-surface-100 border border-border-light rounded-lg p-3.5 text-slate-100 focus:border-neon-emerald focus:outline-none transition-colors"
+                      className="w-full bg-surface-100/90 border border-border-light rounded-lg p-3.5 text-slate-100 focus:border-neon-emerald focus:outline-none transition-colors"
                     >
                       <option value="AI/ML Engineering Role">Full-Time AI / ML Engineering Role</option>
                       <option value="Generative AI / Agentic Project">Generative AI / Agentic Architecture Project</option>
@@ -256,14 +259,14 @@ const Contact = ({ onShowToast }) => {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Describe the opportunity, team context, or project scope..."
-                      className="w-full bg-surface-100 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors resize-none"
+                      className="w-full bg-surface-100/90 border border-border-light rounded-lg p-3.5 text-slate-100 placeholder:text-slate-600 focus:border-neon-emerald focus:outline-none transition-colors resize-none"
                     />
                   </div>
 
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-lg bg-neon-emerald text-slate-950 font-bold font-mono text-xs uppercase tracking-wider hover:bg-neon-lime transition-all duration-200 shadow-neon-emerald flex items-center justify-center gap-2"
+                    className="magnetic premium-button w-full py-4 rounded-lg bg-neon-emerald text-slate-950 font-bold font-mono text-xs uppercase tracking-wider hover:bg-neon-lime transition-all duration-200 shadow-neon-emerald flex items-center justify-center gap-2"
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Project Briefing →</span>

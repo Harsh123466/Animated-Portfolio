@@ -6,21 +6,35 @@ const NeuralBackground = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+
+    const setCanvasSize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    setCanvasSize();
 
     const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      setCanvasSize();
     };
 
     window.addEventListener('resize', handleResize);
 
     // Particle nodes for neural mesh
-    const particleCount = Math.min(Math.floor((width * height) / 18000), 55);
+    const particleCount = Math.min(Math.floor((width * height) / 21000), 58);
     const particles = [];
 
     for (let i = 0; i < particleCount; i++) {
