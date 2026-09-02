@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { personalInfo } from '../data/portfolioData';
-import { Menu, X, Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, ArrowRight, SunMedium, MoonStar } from 'lucide-react';
 
-const Navbar = ({ isModalOpen = false }) => {
+const Navbar = ({ isModalOpen = false, theme = 'dark', onToggleTheme = () => {} }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -84,6 +84,17 @@ const Navbar = ({ isModalOpen = false }) => {
 
         {/* Right Actions: Clean & Minimal */}
         <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            className="p-1.5 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition-colors hidden sm:flex items-center justify-center"
+            aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+            title={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+            aria-pressed={theme === 'light'}
+          >
+            {theme === 'light' ? <MoonStar className="w-4 h-4" /> : <SunMedium className="w-4 h-4" />}
+          </button>
+
           {/* GitHub Icon */}
           <a
             href={personalInfo.github}
@@ -135,6 +146,15 @@ const Navbar = ({ isModalOpen = false }) => {
             <div className="pt-3 mt-1 border-t border-white/10 flex items-center justify-between px-2 text-xs">
               <span className="text-slate-400">Harsh Adhana</span>
               <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={onToggleTheme}
+                  className="inline-flex items-center gap-1.5 text-slate-300 hover:text-neon-emerald transition-colors"
+                  aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+                >
+                  {theme === 'light' ? <MoonStar className="w-3.5 h-3.5" /> : <SunMedium className="w-3.5 h-3.5" />}
+                  <span>{theme === 'light' ? 'Dark' : 'Light'}</span>
+                </button>
                 <a
                   href={personalInfo.github}
                   target="_blank"

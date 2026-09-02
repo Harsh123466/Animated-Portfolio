@@ -17,6 +17,16 @@ import Toast from './components/Toast';
 function App() {
   const [toast, setToast] = useState({ message: '', type: 'success' });
   const [selectedProject, setSelectedProject] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = typeof window !== 'undefined' ? localStorage.getItem('portfolio-theme') : null;
+    return savedTheme || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('light-theme', theme === 'light');
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -231,16 +241,20 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-slate-100 selection:bg-neon-emerald/20 selection:text-neon-emerald">
+    <div className={`relative min-h-screen bg-background text-slate-100 selection:bg-neon-emerald/20 selection:text-neon-emerald transition-colors duration-500 ease-out ${theme === 'light' ? 'light-theme' : ''}`}>
       
       {/* Interactive Neural Mesh Canvas Background */}
-      <NeuralBackground />
+      <NeuralBackground theme={theme} />
 
       {/* Cyber Grid Overlay */}
       <div className="fixed inset-0 cyber-grid opacity-60 pointer-events-none z-0"></div>
 
       {/* Main Sticky Navbar (hidden when modal is open) */}
-      <Navbar isModalOpen={!!selectedProject} />
+      <Navbar
+        isModalOpen={!!selectedProject}
+        theme={theme}
+        onToggleTheme={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+      />
 
       {/* Main Content Layout */}
       <main className="relative z-10">

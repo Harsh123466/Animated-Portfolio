@@ -27,7 +27,7 @@ const ProjectModal = ({ project, onClose }) => {
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c1017] border border-white/10 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.95)] overflow-y-auto z-10 font-sans">
+      <div data-lenis-prevent className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c1017] border border-white/10 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.95)] overflow-y-auto z-10 font-sans">
         
         {/* Header Bar */}
         <div className="sticky top-0 bg-[#0c1017]/98 border-b border-border-light px-6 py-4 flex items-center justify-between backdrop-blur-md z-20">

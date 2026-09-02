@@ -3,7 +3,7 @@ import { skillCategories } from '../data/portfolioData';
 import {
   Activity, Atom, Binary, Bot, Boxes, Brain, Code, Cpu, Database,
   DatabaseZap, Flame, GitBranch, GitFork, Layout, Sigma, Sparkles,
-  Table, Terminal, Zap
+  Table, Terminal, Zap, ArrowUpRight
 } from 'lucide-react';
 
 const iconMap = {
@@ -30,7 +30,9 @@ const iconMap = {
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState(skillCategories[0].id);
+  const [selectedSkill, setSelectedSkill] = useState(null);
   const active = skillCategories.find((category) => category.id === activeCategory) || skillCategories[0];
+  const focusedSkill = active.skills.find((skill) => skill.name === selectedSkill);
 
   return (
     <section id="skills" className="section-shell py-28 px-6 md:px-12 border-t border-border-light relative overflow-hidden">
@@ -82,6 +84,9 @@ const Skills = () => {
                     <span className="text-xs font-mono uppercase tracking-widest text-neon-cyan">Active Capability Cluster</span>
                     <h3 className="mt-2 text-2xl sm:text-4xl font-bold text-slate-100">{active.title}</h3>
                     <p className="mt-2 text-sm text-slate-400 max-w-2xl">{active.description}</p>
+                    <div className={`mt-4 text-xs font-mono transition-all duration-300 ${focusedSkill ? 'text-neon-emerald opacity-100' : 'text-slate-500 opacity-70'}`}>
+                      {focusedSkill ? `Focused capability / ${focusedSkill.name}` : 'Select a capability to focus the system'}
+                    </div>
                   </div>
                   <div className="rounded-2xl border border-neon-emerald/25 bg-neon-emerald/10 px-4 py-3 text-center">
                     <div className="text-3xl font-bold text-neon-emerald">{active.skills.filter((skill) => skill.highlight).length}</div>
@@ -93,29 +98,33 @@ const Skills = () => {
                   {active.skills.map((skill, index) => {
                     const Icon = iconMap[skill.icon] || Cpu;
                     return (
-                      <div
+                      <button
                         key={skill.name}
-                        className={`skill-card tilt-card spotlight-card rounded-2xl border p-4 min-h-[150px] flex flex-col justify-between transition-all ${
+                        type="button"
+                        onClick={() => setSelectedSkill(selectedSkill === skill.name ? null : skill.name)}
+                        aria-pressed={selectedSkill === skill.name}
+                        aria-label={`Inspect ${skill.name}`}
+                        className={`skill-card tilt-card spotlight-card group rounded-2xl border p-4 min-h-[132px] flex flex-col justify-between text-left transition-all ${
                           skill.highlight
                             ? 'bg-surface-100/85 border-neon-emerald/20 hover:border-neon-emerald/50'
                             : 'bg-surface-200/55 border-border-light hover:border-slate-400/50'
-                        }`}
+                        } ${selectedSkill === skill.name ? 'ring-2 ring-neon-emerald/40 border-neon-emerald/60 -translate-y-1 shadow-neon-emerald' : ''}`}
                         style={{ '--reveal-delay': `${index * 70}ms` }}
                       >
                         <div className="flex items-center justify-between">
-                          <div className="rounded-xl border border-border-light bg-surface-300 p-2.5 text-neon-emerald">
+                          <span className="text-[10px] font-mono text-slate-500 transition-colors group-hover:text-neon-cyan">0{index + 1}</span>
+                          <div className="text-neon-emerald transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
                             <Icon className="w-5 h-5" />
                           </div>
-                          <span className="text-[10px] font-mono text-slate-500">NODE 0{index + 1}</span>
                         </div>
                         <div>
                           <h4 className="text-base font-bold text-slate-100">{skill.name}</h4>
-                          <div className="mt-2 flex items-center justify-between gap-3">
-                            <span className="text-xs font-mono text-slate-400">{skill.level}</span>
-                            {skill.highlight && <span className="rounded-full bg-neon-emerald/10 px-2 py-0.5 text-[10px] font-mono text-neon-emerald">primary</span>}
+                          <div className="mt-3 flex items-center justify-between">
+                            <div className={`h-px bg-neon-emerald/50 transition-all duration-300 ${selectedSkill === skill.name ? 'w-full' : 'w-8 group-hover:w-16'}`}></div>
+                            <ArrowUpRight className="w-4 h-4 text-slate-500 transition-colors group-hover:text-neon-cyan" />
                           </div>
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>

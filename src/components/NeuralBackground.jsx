@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const NeuralBackground = () => {
+const NeuralBackground = ({ theme = 'dark' }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -71,9 +71,11 @@ const NeuralBackground = () => {
         width * 0.5, height * 0.3, 50,
         width * 0.5, height * 0.3, width * 0.8
       );
-      gradient.addColorStop(0, 'rgba(16, 185, 129, 0.03)');
-      gradient.addColorStop(0.5, 'rgba(6, 182, 212, 0.015)');
-      gradient.addColorStop(1, 'rgba(7, 9, 14, 0)');
+      const glowPrimary = theme === 'light' ? 'rgba(16, 185, 129, 0.07)' : 'rgba(16, 185, 129, 0.03)';
+      const glowSecondary = theme === 'light' ? 'rgba(6, 182, 212, 0.04)' : 'rgba(6, 182, 212, 0.015)';
+      gradient.addColorStop(0, glowPrimary);
+      gradient.addColorStop(0.5, glowSecondary);
+      gradient.addColorStop(1, theme === 'light' ? 'rgba(255, 255, 255, 0)' : 'rgba(7, 9, 14, 0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
@@ -139,7 +141,7 @@ const NeuralBackground = () => {
       window.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <canvas
